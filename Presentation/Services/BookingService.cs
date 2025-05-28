@@ -44,4 +44,22 @@ public class BookingService(IBookingRepository bookingRepository) : IBookingServ
             : new BookingResult { Success = false, Error = result.Error };
     }
 
+    public async Task<BookingResult<IEnumerable<BookingEntity>>> GetAllBookingsAsync()
+    {
+        var result = await _bookingRepository.GetAllAsync();
+
+        return result.Success
+            ? new BookingResult<IEnumerable<BookingEntity>> 
+            { 
+                Success = true, 
+                Result = result.Result 
+            }
+            : new BookingResult<IEnumerable<BookingEntity>>
+            { 
+                Success = false, 
+                Error = result.Error 
+            };
+    }
+
+
 }

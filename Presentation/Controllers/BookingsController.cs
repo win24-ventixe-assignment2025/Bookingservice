@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
 using Presentation.Services;
@@ -21,4 +22,16 @@ public class BookingsController(IBookingService bookingsService) : ControllerBas
         return result.Success ? Ok()
             : StatusCode(StatusCodes.Status500InternalServerError, "Unable to create booking.");
     }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await _bookingsService.GetAllBookingsAsync();
+        if (!result.Success)
+            return BadRequest(result.Error);
+
+        return Ok(result.Result);
+    }
+
 }
