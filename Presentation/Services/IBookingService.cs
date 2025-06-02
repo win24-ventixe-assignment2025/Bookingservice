@@ -7,6 +7,8 @@ namespace Presentation.Services
     {
         Task<BookingResult> CreateBookingAsync(CreateBookingRequest request);
         Task<BookingResult<IEnumerable<BookingEntity>>> GetAllBookingsAsync();
+        Task<bool> DeleteBookingAsync(string id);
+
 
     }
 }

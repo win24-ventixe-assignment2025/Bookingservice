@@ -34,4 +34,16 @@ public class BookingsController(IBookingService bookingsService) : ControllerBas
         return Ok(result.Result);
     }
 
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteBooking(string id)
+    {
+        var success = await _bookingsService.DeleteBookingAsync(id);
+        if (!success)
+            return NotFound();
+
+        return NoContent();
+    }
+
+
 }

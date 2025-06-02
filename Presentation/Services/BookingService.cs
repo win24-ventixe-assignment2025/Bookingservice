@@ -1,4 +1,5 @@
-﻿using Presentation.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Presentation.Data.Entities;
 using Presentation.Data.Repositories;
 using Presentation.Models;
 
@@ -7,6 +8,7 @@ namespace Presentation.Services;
 public class BookingService(IBookingRepository bookingRepository) : IBookingService
 {
     private readonly IBookingRepository _bookingRepository = bookingRepository;
+
 
     public async Task<BookingResult> CreateBookingAsync(CreateBookingRequest request)
     {
@@ -33,7 +35,7 @@ public class BookingService(IBookingRepository bookingRepository) : IBookingServ
             EventId = request.EventId,
             BookingDate = DateTime.Now,
             TicketQuantity = request.TicketQuantity,
-            BookingOwner = bookingOwner  // Assign the whole owner
+            BookingOwner = bookingOwner  
         };
 
       
@@ -60,6 +62,14 @@ public class BookingService(IBookingRepository bookingRepository) : IBookingServ
                 Error = result.Error 
             };
     }
+
+    public async Task<bool> DeleteBookingAsync(string id)
+    {
+        var result = await _bookingRepository.DeleteAsync(id);
+        return result.Success;
+    }
+
+
 
 
 }

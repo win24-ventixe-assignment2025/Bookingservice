@@ -5,5 +5,6 @@ namespace Presentation.Data.Repositories;
 
 public interface IBookingRepository : IBaseRepository<BookingEntity>
 {
+    Task<BookingResult> DeleteAsync(string id);
 
 }

@@ -52,4 +52,21 @@ public class BookingRepository(DataContext context) : BaseRepository<BookingEnti
 
         }
     }
+
+    public async Task<BookingResult> DeleteAsync(string id)
+    {
+        var booking = await _context.Bookings.FindAsync(id);
+        if (booking == null)
+            return new BookingResult 
+            { 
+                Success = false, 
+                Error = "Booking not found" 
+            };
+
+        _context.Bookings.Remove(booking);
+        await _context.SaveChangesAsync();
+
+        return new BookingResult { Success = true };
+    }
+
 }
